@@ -1,7 +1,7 @@
 ![](https://img.shields.io/travis/perwendel/spark.svg) 
 ![](https://img.shields.io/github/license/perwendel/spark.svg)
 ![](https://img.shields.io/maven-central/v/com.sparkjava/spark-core.svg)
-# Spark-Web 一个基于Java8函数式编程精巧的web框架
+# Spark-Web 一个基于Java8函数式编程精巧的web框架 #
 * [开始](#开始)
 * [停止服务器](#停止服务器)
 * [路由](#路由)
@@ -41,8 +41,8 @@
 * [Examples And FAQ](#examples and faq)
 * [如何自动刷新静态文件](#如何自动刷新静态文件)
 
-###开始
-##1、创建一个maven工程，然后在pom.xml中添加下面的依赖
+### 开始
+## 1、创建一个maven工程，然后在pom.xml中添加下面的依赖
 
 ```xml
 <dependency>
@@ -60,7 +60,7 @@ Gradle : compile "com.sparkjava:spark-core:2.5.3" //add to build.gradle
 Ivy : <dependency org="com.sparkjava" name="spark-core" rev="2.5.3" conf="build" /> //ivy.xml
 SBT : libraryDependencies += "com.sparkjava" % "spark-core" % "2.5.3" //build.sbt
 ```
-####2、开始编码
+#### 2、开始编码
 
 ```Java
 import static spark.Spark.*;
@@ -72,16 +72,16 @@ public class HelloWorld {
 }
 ```
 
-####3、运行，并且在浏览器中打开
+#### 3、运行，并且在浏览器中打开
 
 	http://localhost:4567/hello
 
 为了在控制台看到更多的输出，你可以在你的工程中[添加日志](#添加日志)
 
-###停止服务器
+### 停止服务器
 通过调用stop()方法停止服务器，同时路由信息被清空
 
-###路由
+### 路由
 一个应用程序最主要的构建模块是一些路由的集合，一个路由由3个基本的组件组成：
 
 * verb (HTTP请求方式)(get, post, put, delete, head, trace, connect, options)
@@ -132,7 +132,7 @@ get("/say/*/to/*", (request, response) -> {
 });
 ```
 
-####路由概述
+#### 路由概述
 在Spark2.4中我们添加了实验特性
 ```Java
 RouteOverview.enableRouteOverview(); // overview available at /debug/routeoverview/
@@ -140,7 +140,7 @@ RouteOverview.enableRouteOverview("/my/overview/path"); // available at specifie
 ```
 >>  这些特性有很多反射的魔力，它有可能在某些版本的JDK上不能很好的运行
 
-###Request
+### Request
 Request对象信息和它本身所提供的方法
 ```Java
 	request.attributes();             // 属性的集合
@@ -177,7 +177,7 @@ Request对象信息和它本身所提供的方法
 	request.userAgent();              // 用户代理
 ```
 
-###Response
+### Response
 Response对象信息和它本身所提供的方法
 ```Java
 	response.body();               // 获取响应内容信息
@@ -191,7 +191,7 @@ Response对象信息和它本身所提供的方法
 	response.type("text/xml");     // 响应类型 text/xml
 ```
 
-###查询参数
+### 查询参数
 查询参数的集合允许你通过它们的前缀进行分成map，例如，它可以允许你把参数分成像user[nam]和user[age]到一个user对象的map
 ```Java
 	request.queryMap().get("user", "name").value();
@@ -199,7 +199,7 @@ Response对象信息和它本身所提供的方法
 	request.queryMap("user").get("age").integerValue();
 	request.queryMap("user").toMap();
 ```
-###Cookies
+### Cookies
 ```Java
 	request.cookies();                         // 获取请求中cookies map集合
 	request.cookie("foo");                     // 通过名称访问cookie
@@ -208,7 +208,7 @@ Response对象信息和它本身所提供的方法
 	response.cookie("foo", "bar", 3600, true); // 安全的cookie
 	response.removeCookie("foo");              // 移除 cookie
 ```
-###Sessions
+### Sessions
 每个请求都会访问在服务器上创建的session对象，Session对象提供了一下的方法
 ```Java
 	request.session(true)                      // 创建并返回 session
@@ -221,7 +221,7 @@ Response对象信息和它本身所提供的方法
 	request.session().raw()                    // 返回servlet对象
 ```
 
-###Halting
+### Halting
 在使用过滤器或者路由是立即停止请求
 
 	halt();
@@ -236,7 +236,7 @@ Response对象信息和它本身所提供的方法
 
 	halt(401, "Go away!");
 
-###Filters
+### Filters
 在每个请求之前将会被调用，它可以读取到请求中的信息并读取或者修改响应信息
 
 为了停止执行，使用halt：
@@ -261,7 +261,7 @@ before((request, response) -> {
 	    // ... check if authenticated
 	    halt(401, "Go Away!");
 	});
-###Redirects
+### Redirects
 你可以使用Response的redirect方法触发浏览器重定向到另一个页面
 
 	response.redicrect("/bar");
@@ -270,7 +270,7 @@ before((request, response) -> {
 
 	response.redirect("/bar", 301);
 
-###重定向
+### 重定向
 同时这里有非常方便的redirects API来进行重定向任务，它可以在没有Response对象的状态下使用
 
 	// redirect a GET to "/fromPath" to "/toPath"
@@ -284,7 +284,7 @@ before((request, response) -> {
 
 记得静态引入redirects的前缀，Spark.redirect
 
-###异常映射
+### 异常映射
 为了解决所有的路由和拦截器等的异常：
 
 	get("/throwexception", (request, response) -> {
@@ -295,7 +295,7 @@ before((request, response) -> {
 	    // Handle the exception here
 	});
 
-###静态文件
+### 静态文件
 你可以在服务器的类路径下使用staticFileLocation方法指定一个文件夹，注意这个公共的目录名称不包括URL路径，一个像`/public/css/style.css`是通过`http://{host}:{port}/css/style.css`获取到的
 
 	staticFiles.location("/public"); // 静态文件
@@ -304,18 +304,18 @@ before((request, response) -> {
 
 	staticFiles.externalLocation(System.getProperty("java.io.tmpdir"));	
 
-####缓存过期时间
+#### 缓存过期时间
 你可以指定特定的缓存时间(秒),默认的这儿是没有使用缓存的
 
 	staticFiles.expireTime(600); // ten minutes
 
-####设置自定义的请求头
+#### 设置自定义的请求头
 	staticFiles.header("Key-1", "Value-1");
 	staticFiles.header("Key-1", "New-Value-1"); // Using the same key will overwrite value
 	staticFiles.header("Key-2", "Value-2");
 	staticFiles.header("Key-3", "Value-3");
 
-###ResponseTransformer
+### ResponseTransformer
 路由映射使用handle方法把输出进行转换，可以通过集成ResponseTransformer类来转换输出格式，下面是使用Gson格式化树池JSON数据：
 ```Java
 import com.google.gson.Gson;
@@ -338,12 +338,12 @@ public class JsonTransformer implements ResponseTransformer {
 	Gson gson = new Gson();
 	get("/hello", (request, response) -> new MyMessage("Hello World"), gson::toJson);
 
-###视图和模板引擎
+### 视图和模板引擎
 TemplateViewRoute 是通过路径(url匹配)和模板引擎实现了render方法来构建的，同时它调用了TemplateViewRoute的render的方法作为返回值来替代使用toString()方法来返回body中的数据。
 
 这个路由的主要目的是使用模板引擎来提供一个创建通用的，可重复使用的组件来渲染输出结果
 
-####Velocity
+#### Velocity
 使用Velocity引擎把对象渲染成HTML
 
 Maven依赖：
@@ -356,7 +356,7 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-velocity)
 
-####Freemarker
+#### Freemarker
 使用Freemarker引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -369,7 +369,7 @@ Maven依赖：
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-mustache)
 
 
-####Handlebars
+#### Handlebars
 使用Handlebars引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -381,7 +381,7 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-handlebars)
 
-####Jade
+#### Jade
 使用Jade引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -393,7 +393,7 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-jade)
 
-####Thymeleaf
+#### Thymeleaf
 使用Thymeleaf引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -406,7 +406,7 @@ Maven依赖：
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-thymeleaf)
 
 
-####Jetbrick
+#### Jetbrick
 使用Jetbrick引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -418,7 +418,7 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-jetbrick)
 
-####Pebble
+#### Pebble
 使用Jetbrick引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -430,7 +430,7 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-pebble)
 
-####Water
+#### Water
 使用Water引擎把对象渲染成HTML
 Maven依赖：
 ```Xml
@@ -442,22 +442,22 @@ Maven依赖：
 ```
 源代码在[Github](https://github.com/perwendel/spark-template-engines/tree/master/spark-template-water)
 
-###嵌入式Web服务器
+### 嵌入式Web服务器
 单机的Spark运行在[jetty](http://eclipse.org/jetty/)嵌入式的服务器上
 
-####端口
+#### 端口
 默认的，Spark运行的端口是4567，如果你想设置其他的端口，你需要在路由和拦截器之前设置
 
 	port(9090);
 
-####安全
+#### 安全
 (HTTPS/SSL)你可以使用secure方法设置安全的连接，这个应该在路由之前设置
 
 	secure(keystoreFilePath, keystorePassword, truststoreFilePath, truststorePassword);
 
 如果你需要更多的帮助，查看[FAQ](http://sparkjava.com/documentation.html#enable-ssl)
 
-####线程池
+#### 线程池
 你可以设置最大的线程数
 
 	int maxThreads = 8;
@@ -470,14 +470,14 @@ Maven依赖：
 	int timeOutMillis = 30000;
 	threadPool(maxThreads, minThreads, timeOutMillis);
 
-####等待初始化
+#### 等待初始化
 你可以使用awaitInitialization()方法来检查服务器是否准备好接受请求，这个通常是通过一个分离的线程来做的，例如在你的服务器启动后运行一个安全检查模块。
 
 这个方法导致当前的线程等待知道嵌入式的Jetty服务器被初始化.初始化被通过定义路由或拦截器所触发。因此，如果你只使用一个线程，不要把它放在你定义的路由和拦截器前面。
 
 	awaitInitialization(); // Wait for server to be initialized
 
-###WebSockets
+### WebSockets
 WebSockets提供了一个在TCP连接上全双工的信息交流协议，意味着你可以在同一个连接上发送和接收信息
 
 WebSockets只在嵌入式的Jetty服务器上工作，而且必须在常规的HTTP路由前定义。为了创建一个WebSocket路由，你需要提供一个路径和处理的类：
@@ -513,7 +513,7 @@ public class EchoWebSocket {
 }
 ```
 
-###其他服务器
+### 其他服务器
 为了在Web服务器上运行Spark(替代嵌入式的Jetty服务器)，你必须实现spark.servlet.SparkApplication这个接口，你需要在init()方法中初始化路由，并且，下面的配置信息需要配置在你的web.xml中
 
 ```Xml
@@ -532,7 +532,7 @@ public class EchoWebSocket {
 </filter-mapping>
 ```
 
-###GZIP
+### GZIP
 如果请求和响应头中带有gzip压缩方式，那么gzip压缩方式可以自动完成，这意味着你需要在你的响应头中设置改属性
 
 如果你想压缩单个response,你可以手动添加到你的路由中：
@@ -548,7 +548,7 @@ public class EchoWebSocket {
 	    response.header("Content-Encoding", "gzip");
 	});
 	
-###Javadoc
+### Javadoc
 
 从[Github](https://github.com/perwendel/spark)下载，运行：
 
@@ -556,10 +556,10 @@ public class EchoWebSocket {
 
 在/target/site/apidocs中生成文件
 
-###Examples And FAQ
+### Examples And FAQ
 在[Github](https://github.com/perwendel/spark/blob/master/README.md#examples)上可以找到例子
 
-####文件上传
+#### 文件上传
 创建一个POST请求的文件表单
 
 	<form method='post' enctype='multipart/form-data'>
@@ -579,7 +579,7 @@ public class EchoWebSocket {
 
 [文件上传例子](https://github.com/tipsy/spark-file-upload)
 
-###如何自动刷新静态文件
+### 如何自动刷新静态文件
 如果你使用staticFiles.location(...)方法，意味着你在你的类路径下保持你的静态文件，当你构建你的应用时静态资源被复制到target文件夹下。这就意味着你为了刷新静态文件不得不每次make\build你的工程，一个可行的方法是告诉Spark从全局路径下读取静态文件，当你刷新时这些静态文件将会自动加载。
 	
 	if (localhost) {
@@ -591,7 +591,7 @@ public class EchoWebSocket {
 	}
 
 </br>
-###添加日志
+### 添加日志
 当你启动运行时你可能在控制台上输出以下信息
 
 	SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
